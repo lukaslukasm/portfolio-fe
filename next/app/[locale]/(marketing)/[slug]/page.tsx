@@ -5,52 +5,56 @@ import { generateMetadataObject } from '@/lib/shared/metadata';
 import ClientSlugHandler from '../ClientSlugHandler';
 
 export async function generateMetadata({
-  params,
+	params,
 }: {
-  params: { locale: string; slug: string };
+	params: { locale: string; slug: string };
 }): Promise<Metadata> {
-  const pageData = await fetchContentType(
-    "pages",
-    {
-      filters: {
-        slug: params.slug,
-        locale: params.locale,
-      },
-      populate: "seo.metaImage",
-    },
-    true,
-  );
+	const pageData = await fetchContentType(
+		'pages',
+		{
+			filters: {
+				slug: params.slug,
+				locale: params.locale,
+			},
+			populate: 'seo.metaImage',
+		},
+		true
+	);
 
-  const seo = pageData?.seo;
-  const metadata = generateMetadataObject(seo);
-  return metadata;
+	const seo = pageData?.seo;
+	const metadata = generateMetadataObject(seo);
+	return metadata;
 }
 
-export default async function Page({ params }: { params: { locale: string, slug: string } }) {
-  const pageData = await fetchContentType(
-    "pages",
-    {
-      filters: {
-        slug: params.slug,
-        locale: params.locale,
-      },
-    },
-    true,
-  );
+export default async function Page({
+	params,
+}: {
+	params: { locale: string; slug: string };
+}) {
+	console.log('Page');
+	const pageData = await fetchContentType(
+		'pages',
+		{
+			filters: {
+				slug: params.slug,
+				locale: params.locale,
+			},
+		},
+		true
+	);
 
-  const localizedSlugs = pageData.localizations?.reduce(
-    (acc: Record<string, string>, localization: any) => {
-      acc[localization.locale] = localization.slug;
-      return acc;
-    },
-    { [params.locale]: params.slug }
-  );
+	const localizedSlugs = pageData.localizations?.reduce(
+		(acc: Record<string, string>, localization: any) => {
+			acc[localization.locale] = localization.slug;
+			return acc;
+		},
+		{ [params.locale]: params.slug }
+	);
 
-  return (
-    <>
-      <ClientSlugHandler localizedSlugs={localizedSlugs} />
-      <PageContent pageData={pageData} />
-    </>
-
-  );
+	return (
+		<>
+			<ClientSlugHandler localizedSlugs={localizedSlugs} />
+			<PageContent pageData={pageData} />
+		</>
+	);
 }
