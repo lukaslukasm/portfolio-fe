@@ -1,24 +1,22 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-@import "./prism.css";
+@import 'tailwindcss';
+@import './prism.css';
 
 :root {
-  --foreground-rgb: 255, 255, 255;
+	--foreground-rgb: 255, 255, 255;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-  }
+	:root {
+		--foreground-rgb: 255, 255, 255;
+	}
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
+	color: rgb(var(--foreground-rgb));
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+	.text-balance {
+		text-wrap: balance;
+	}
 }
